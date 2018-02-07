@@ -1,0 +1,77 @@
+body {
+    padding-top: 5rem;
+}
+.starter-template {
+    padding: 3rem 1.5rem;
+    text-align: left;
+}
+
+a, a:hover {
+    text-decoration: none;
+}
+
+a {
+    color: black;
+}
+
+a:hover{
+    color:gray;
+}
+
+.pagination nav {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.jumbotron {
+    margin-left: 30%;
+    margin-right: 30%;
+}
+
+.ck-rounded-corners .ck-editor__editable {
+    min-height: 300px;
+}
+
+.form-con {
+    margin: 30px auto 0px auto;
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
+.logo {
+    color:gray;
+    font-size:24px;
+    margin-right: 40px;
+}
+
+.btn-primary {
+    background-color: rgba(0,0,0,0) ;
+    color:black;
+    font-weight:700;
+    border-color: black;
+}
+
+.btn-primary:hover{
+    background-color: #ffd530 ;
+    color:black;
+    font-weight:700;
+    border-color: black;
+}
+
+.logo a{
+    text-align: center;
+    height:100%;
+    display:block;
+}
+
+.logo a::before{
+    content:" ";
+    display: block;
+    height:0;
+    width:100%;
+}
+
+.navbar {
+    background-color: black;
+}
+
