@@ -37,22 +37,22 @@
                     <li class="nav-item">
                         <a class="nav-link" href="<?php echo \Lib\Application::RACINE; ?>contact">Contact</a>
                     </li>
-                    <?php if (isset($_SESSION['auth']) AND $_SESSION['auth'] === true AND isset($_SESSION['titre'])) :?>
+                    <?php if (isset($_SESSION['auth']) AND $_SESSION['auth'] === true AND $_SESSION['auteur']->getRole()=='admin') :?>
                         <li class="nav-item">
                             <a class="nav-link" href="<?php echo \Lib\Application::RACINE; ?>admin">Administration</a>
                         </li>
-                    <?php elseif (isset($_SESSION['auth']) AND ($_SESSION['auth'] === true) AND (!isset($_SESSION['titre']))) : ?>
+                    <?php elseif (isset($_SESSION['auth']) AND ($_SESSION['auth'] === true)) : ?>
                     <li class="nav-item">
                         <a class="nav-link" href="<?php echo \Lib\Application::RACINE; ?>membre">Mon Espace</a>
                     </li>
                     <?php endif; ?>
                         <?php if (isset($_SESSION['auth']) AND $_SESSION['auth'] === true) : ?>
                             <li class="nav-item">
-                        <a class="nav-link" href="<?php echo \Lib\Application::RACINE; ?>disconnect">Déconnexion</a>
+                        <a class="nav-link" href="<?php echo \Lib\Application::RACINE; ?>connexion/disconnect">Déconnexion</a>
                     </li>
                     <?php else: ?>
                         <li class="nav-item">
-                            <a class="nav-link" href="<?php echo \Lib\Application::RACINE; ?>connect">Connexion</a>
+                            <a class="nav-link" href="<?php echo \Lib\Application::RACINE; ?>connexion">Connexion</a>
                         </li>
                     <?php endif; ?>
 

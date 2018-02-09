@@ -3,8 +3,6 @@
 namespace Lib;
 
 
-use Controleur\Frontend\BlogControleur;
-
 class Frontend extends Application
 {
     protected $controleur;
@@ -14,7 +12,7 @@ class Frontend extends Application
     {
         $this->name = 'Frontend';
         $this->layout = 'layout.html.php';
-        //parent::__construct();
+        parent::__construct();
     }
 
 

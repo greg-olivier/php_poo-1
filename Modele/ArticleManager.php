@@ -51,5 +51,43 @@ Class ArticleManager extends EntiteManager {
 
     }
 
+    /**
+     * @param Auteur $auteur
+     */
+    public function getArticlePubByAuteur(Auteur $auteur){
+
+        // Articles publiés
+        $sql = 'SELECT id, titre, contenu, publier FROM article WHERE id_auteur = ? AND publier = 1 ORDER BY date DESC';
+        $result = $this->prepare($sql);
+        $result->execute([$auteur->getId()]);
+        $result->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, Article::class);
+        $all_articles_pub = $result->fetchAll();
+
+        $sql = 'SELECT COUNT(id) nb FROM article WHERE id_auteur = ? AND publier = 1';
+        $result = $this->prepare($sql);
+        $result->execute([$auteur->getId()]);
+        $nb_items = $result->fetch();
+        $nb_items_pub = $nb_items['nb'];
+
+
+
+        return ['all_articles_pub' => $all_articles_pub, 'nb_items_pub' => $nb_items_pub];
+    }
+
+    public function getArticleNoPubByAuteur(Auteur $auteur) {
+        $sql = 'SELECT id, titre, contenu, publier FROM article WHERE id_auteur = ? AND publier = 0 ORDER BY date DESC';
+        $result = $this->prepare($sql);
+        $result->execute([$auteur->getId()]);
+        $result->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, Article::class);
+        $all_articles_nopub = $result->fetchAll();
+
+        $sql = 'SELECT COUNT(id) nb FROM article WHERE id_auteur = ? AND publier = 0';
+        $result = $this->prepare($sql);
+        $result->execute([$auteur->getId()]);
+        $nb_items = $result->fetch();
+        $nb_items_nopub = $nb_items['nb'];
+
+        return ['all_articles_nopub' => $all_articles_nopub, 'nb_items_nopub' => $nb_items_nopub];
+    }
 
 }

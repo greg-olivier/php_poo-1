@@ -34,7 +34,6 @@ abstract class Controleur
 
     }
 
-    abstract protected function indexAction();
 
     protected function render($vue, array $data = [])
     {

@@ -30,7 +30,7 @@ class Auteur extends Entite
     public function setNom($nom)
     {
         if (strlen($nom) < 3)
-            $this->erreur .= "Login non-rempli ou trop court<br>";
+            $this->erreur[] .= "Login non-rempli ou trop court<br>";
         else
             $this->nom = $nom;
         return $this;
@@ -51,10 +51,10 @@ class Auteur extends Entite
     public function setPass($pass)
     {
         if (strlen($pass) < 3)
-            $this->erreur .= "Votre mot de passe doit avoir au moins 3 caractères<br>";
+            $this->erreur[] .= "Votre mot de passe doit avoir au moins 3 caractères<br>";
         else
-            $this->pass = password_hash($pass, PASSWORD_DEFAULT);
-        return $this;
+            $this->pass = $pass;
+            return $this;
     }
 
     /**
@@ -75,5 +75,24 @@ class Auteur extends Entite
         return $this;
     }
 
+
+    public function getRole()
+    {
+        if ($this->getTitre() == 'admin')
+            return 'admin';
+        elseif ($this->getTitre() == null)
+            return 'membre';
+        else
+            return 'erreur';
+    }
+    
+
+    public function __sleep() {
+        return ['id','nom', 'titre'];
+    }
+
+    public function cryptPass($pass){
+        return $this->pass = password_hash($pass, PASSWORD_DEFAULT);
+    }
 
 }

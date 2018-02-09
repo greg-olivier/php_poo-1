@@ -30,6 +30,17 @@ abstract class Entite
     }
 
     /**
+     * @param mixed $id
+     * @return Entite
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    
+    /**
      * @return array
      */
     public function getErreur()

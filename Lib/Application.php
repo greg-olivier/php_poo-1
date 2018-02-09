@@ -3,11 +3,33 @@
 namespace Lib;
 
 
+use Modele\Auteur;
+
 abstract class Application
 {
-    protected $name, $layout, $user;
+    protected $name, $layout;
+    /**
+     * @var Auteur $auteur
+     */
+    protected $auteur;
 
     const RACINE = '/php/php_poo-1/web/';
+    const TIME_STORE_TOKEN = 5 * 60; // 5min -> temps de saisie des formulaires
+    const TIME_STORE_CACHE = 24 * 3600; // 24h -> temps avant check si cache a été modifié
+    const TIME_STORE_COOKIE = 12 * 3600; // 12h -> temps avant que le cookies ne soit plus valable
+
+
+    public function __construct()
+    {
+        setlocale(LC_ALL, '');
+        session_start();
+        
+
+        if (isset($_SESSION['auteur']))
+            $this->auteur = $_SESSION['auteur'];
+        else
+            $this->auteur = new \Modele\Auteur();
+    }
 
     /**
      * @return mixed
@@ -45,6 +67,26 @@ abstract class Application
         return $this;
     }
 
+    /**
+     * @return Auteur
+     */
+    public function getAuteur()
+
+    {
+
+        return $this->auteur;
+    }
+
+    /**
+     * @param Auteur $auteur
+     * @return Application
+     */
+    public function setAuteur(Auteur $auteur)
+    {
+        $this->auteur = $auteur;
+        return $this;
+    }
+
 
     public abstract function run();
 
@@ -55,6 +97,7 @@ abstract class Application
         if (!class_exists($nomControleur))
             throw new HttpErrorException("Module non trouvé", 404);
         return new $nomControleur($this);
-}
+    }
+
 
 }
