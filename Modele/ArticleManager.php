@@ -50,7 +50,7 @@ Class ArticleManager extends EntiteManager
     {
 
 
-        $sql = 'SELECT id, titre, date, image, contenu, slug, id_auteur auteur FROM article WHERE id = ?';
+        $sql = 'SELECT id, titre, date, image, thumbnail, contenu, slug, id_auteur auteur, publier FROM article WHERE id = ?';
         $result = $this->prepare($sql);
         $result->execute([$id]);
         $result->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, Article::class);
@@ -64,6 +64,12 @@ Class ArticleManager extends EntiteManager
         $img_bdd = $article->getImage();
         $article->setImage($image);
         $article->getImage()->setFilename($img_bdd);
+
+        $thumbnail = new \Modele\Thumbnail();
+        $thumb_bdd = $article->getThumbnail();
+        $article->setThumbnail($thumbnail);
+        $article->getThumbnail()->setFilename($thumb_bdd);
+
 
         return $article;
 
@@ -148,12 +154,10 @@ Class ArticleManager extends EntiteManager
         $result->execute([$article->getSlug(),$this->getBdd()->lastInsertId()]);
     }
 
-    public function getLastId()
-    {
-        $sql = 'SELECT id FROM article ORDER BY id DESC LIMIT 1';
-        $result = $this->query($sql);
-        $lastid = $result->fetch();
-        return $lastid['id'];
+    public function updateArticle(Article $article){
+        $sql = 'UPDATE article SET titre = ?, contenu = ?, image = ?, thumbnail = ?, date = ? ,publier = ? WHERE id = ?';
+        $result = $this->prepare($sql);
+        $result->execute([$article->getTitre(), $article->getContenu(), $article->getImage()->getFilename(), $article->getThumbnail()->getFilename(),  $article->getDate()->format('Y-m-d H:i:s'), $article->getPublier(), $article->getId()]);
     }
 
 }

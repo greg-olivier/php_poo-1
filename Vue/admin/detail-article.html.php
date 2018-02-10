@@ -6,7 +6,7 @@
         <span class="caret"></span>
     </button>
     <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="action">
-        <li><a href="<?php echo \Lib\Application::RACINE ?>admin/edit/<?php $current_article->getSlug(); ?>">Modifier</a></li>
+        <li><a href="<?php echo \Lib\Application::RACINE ?>admin/edit/<?php echo $current_article->getSlug(); ?>">Modifier</a></li>
         <li><a href="#" onClick="ConfirmMessage()" >Supprimer</a></li>
     </ul>
 
