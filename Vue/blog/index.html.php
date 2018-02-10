@@ -1,4 +1,4 @@
-<h1><?php echo $titre ?></h1>
+<h1><?php echo $titre ?></h1
 <br>
 <div class="row">
 <div class="card-group">
@@ -6,8 +6,8 @@
     <div class="col-sm-4">
 <article>
     <div class="card mb-4">
-        <?php if($last_article->getImage()!= NULL) : ?>
-            <img class="card-img-top" src="<?php echo \Lib\Application::RACINE.'images/'. $last_article->getImage() ?>" alt="<?php  htmlspecialchars($last_article->getTitre());?>">
+        <?php if($last_article->getThumbnail()->getFilename()!= NULL) : ?>
+            <img class="card-img-top" src="<?php echo \Lib\Application::RACINE.'images/thumbnails/'.$last_article->getThumbnail()->getFilename(); ?>" alt="<?php  htmlspecialchars($last_article->getTitre());?>">
         <?php endif ?>
     </div>
         <div class="card-block">

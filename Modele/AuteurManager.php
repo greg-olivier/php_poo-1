@@ -24,12 +24,21 @@ class AuteurManager extends EntiteManager
         return $result->fetch();
     }
 
-    public function getAuteurToLogin(Auteur $auteur){
+    public function getAuteurByNom(Auteur $auteur){
         $sql = 'SELECT id_auteur id, login_auteur nom, pwd_auteur pass, titre FROM auteur WHERE login_auteur = ?';
         $result = $this->prepare($sql);
         $result->execute([$auteur->getNom()]);
         $result->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, Auteur::class);
         return $result->fetch();
+    }
+
+    public function insertAuteur(Auteur $auteur){
+        $query = $this->prepare('INSERT INTO auteur(login_auteur, pwd_auteur,titre)
+        VALUES(:login, :pass, :titre)');
+        $query->bindValue(":login", $auteur->getNom(), PDO::PARAM_STR);
+        $query->bindValue(":pass", $auteur->getPassHash(), PDO::PARAM_STR);
+        $query->bindValue(":titre",'membre', PDO::PARAM_STR);
+        $query->execute();
     }
 
 }

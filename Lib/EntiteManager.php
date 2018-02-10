@@ -14,7 +14,7 @@ abstract class EntiteManager
     /**
      * @var \PDO
      */
-    private $bdd;
+    protected $bdd;
 
     /**
      * ArticleManager constructor.
@@ -24,6 +24,14 @@ abstract class EntiteManager
         $this->bdd = PDOFactory::get();
 
         }
+
+    /**
+     * @return \PDO
+     */
+    public function getBdd()
+    {
+        return $this->bdd;
+    }
 
 
     public function query($query)

@@ -33,9 +33,14 @@ Class Article extends \Lib\Entite
     private $date;
 
     /**
-     * @var string
+     * @var \Modele\Image
      */
     private $image = null;
+
+    /**
+     * @var \Modele\Thumbnail
+     */
+    private $thumbnail = null;
     
 
     /**
@@ -57,6 +62,8 @@ public function __construct(array $data = [])
 {
     $this->date = new \DateTime();
     $this->auteur = new Auteur();
+    $this->image = new Image();
+    $this->thumbnail = new Thumbnail();
     parent::__construct($data);
 }
 
@@ -100,7 +107,7 @@ public function __construct(array $data = [])
     }
 
     /**
-     * @return string
+     * @return Image
      */
     public function getImage()
     {
@@ -110,13 +117,33 @@ public function __construct(array $data = [])
     /**
      * @param string $image
      */
-    public function setImage($image)
+    public function setImage(Image $image)
     {
         $this->image = $image;
         return $this;
     }
 
+    /**
+     * @return Thumbnail
+     */
+    public function getThumbnail()
+    {
+        return $this->thumbnail;
+    }
+    
 
+    /**
+     * @param Thumbnail $thumbnail
+     * @return Article
+     */
+    public function setThumbnail(Thumbnail $thumbnail)
+    {
+        $this->thumbnail = $thumbnail;
+        return $this;
+    }
+
+
+    
     public function setId($id)
     {
         $this->id = $id;

@@ -1,9 +1,9 @@
 RewriteEngine on
-RewriteRule ^(blog|catalogue|contact|register|connexion|admin|membre)$ app.php?module=$1 [L]
+RewriteRule ^(blog|catalogue|contact|connexion|admin|membre)$ app.php?module=$1 [L]
 RewriteRule ^blog/[0-9a-z-]+-([0-9]+)$ app.php?module=blog&action=detail&id=$1 [L]
 RewriteRule ^admin/(index|add|detail|edit|delete)$ app.php?module=admin&action=$1 [L]
 RewriteRule ^admin/(delete|edit|detail)/[0-9a-z-]+-([0-9]+)$ app.php?module=admin&action=$1&id=$2 [L]
-RewriteRule ^connexion/(index|connect|disconnect)$ app.php?module=connexion&action=$1 [L]
+RewriteRule ^connexion/(index|connect|disconnect|register)$ app.php?module=connexion&action=$1 [L]
 RewriteRule ^catalogue/categorie-([0-9]+)$ app.php?module=catalogue&action=category&cat=$1 [L]
 RewriteRule ^catalogue/([a-z-]+)$ app.php?module=catalogue&action=$1 [L]
 RewriteRule ^catalogue/product-([0-9]+)$ app.php?module=catalogue&action=detail&id=$1 [L]

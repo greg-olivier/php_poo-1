@@ -21,6 +21,6 @@
         <button type="submit" class="btn btn-primary" name="OK" value="OK">Envoyer</button>
     </form>
 <br>
-    <a class="register-link" href="?page=register">Pas encore inscrit ? Inscrivez-vous</a>
+    <a class="register-link" href="<?php echo \Lib\Application::RACINE ?>connexion/register">Pas encore inscrit ? Inscrivez-vous</a>
 </div>
 </div>

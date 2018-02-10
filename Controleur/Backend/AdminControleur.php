@@ -10,6 +10,8 @@ namespace Controleur\Backend;
 
 
 use Lib\Application;
+use Modele\Image;
+use Modele\Thumbnail;
 use Tools\Token_Form;
 use Tools\Upload_Image;
 
@@ -49,12 +51,14 @@ class AdminControleur extends \Lib\Controleur
 
                     $article->setTitre($_POST['titre']);
                     $article->setContenu($_POST['contenu']);
-
-                    if ($_FILES['fichier_image'] !== []) {
-                        $image = $_FILES['fichier_image']['name'];
-                        $image_id = $_FILES['fichier_image'];
-                        $ext = pathinfo($image_id['name'], PATHINFO_EXTENSION);
-                        $fileName = sha1(uniqid(rand(), true)) . '.' . $ext;
+                    if ($_FILES['fichier_image']['name'] !== '') {
+                        $image = new \Modele\Image();
+                        $image->setFile($_FILES['fichier_image']);
+                        $image->setNom($_FILES['fichier_image']['name']);
+                        $image->setMime($_FILES['fichier_image']['type']);
+                        $image->setExt($_FILES['fichier_image']['name']);
+                        $image->setFilename($image->encodeFilename());
+                        $article->setImage($image);
                     } else {
                         $image = NULL;
                     }
@@ -63,34 +67,41 @@ class AdminControleur extends \Lib\Controleur
                     } else {
                         $article->setPublier(0);
                     }
+                    if ($image != null) {
+                        if (!is_dir(\Modele\Image::IMAGES)) {
+                            mkdir(\Modele\Image::IMAGES);
+                        }
 
 
-                    if (!is_dir('../Web/images/')) {
-                        mkdir('../Web/images/');
-                    }
+                        $upload = $article->getImage()->uploadImage();
 
-                    $images_dir = scandir('../Web/images/');
-                    if ($image !== '') {
-                        if (($images_dir === FALSE) OR (array_search($fileName, $images_dir) === FALSE)) {
-                            $upload_ok = $this->upload($image_id, '../Web/images/' . $fileName, 1000000, array('image/png', 'image/jpg', 'image/jpeg'));
-                            if ($upload_ok === FALSE) {
-                                $article->setErreur(['Problème lors du téléchargement du fichier. merci de recommencer']);
+                        if ($upload === true)
+                            if (!is_dir(Thumbnail::THUMB)) {
+                                mkdir(Thumbnail::THUMB);
                             }
 
+                        $thumbnail = $article->getThumbnail()->thumbnail(Image::IMAGES . $article->getImage()->getFilename());
+
+
+                        if ($article->getImage()->getErreur() != [] OR $article->getThumbnail()->getErreur() != []) {
+                            $erreur_img = $article->getImage()->getErreur();
+                            $erreur_thumb = $article->getImage()->getErreur();
+                            $erreurs = array_merge($erreur_img, $erreur_thumb);
+                            $article->setErreur($erreurs);
                         }
                     }
 
                     if ($article->getErreur() == []) {
                         $am = new \Modele\ArticleManager();
-                        $article->setSlug($_POST['titre'],$am->getLastId()+1);
                         $article->setAuteur($_SESSION['auteur']);
                         $article->setDate(new \DateTime('now'));
+                        if ($image !== null)
+                            $article->getThumbnail()->setNom($thumbnail);
 
                         $am->addArticle($article);
-                        header('Location: '.Application::RACINE.'admin/index');
+                        header('Location: ' . Application::RACINE . 'admin/index');
                         exit();
                     }
-
                 }
             }
         }
@@ -104,9 +115,10 @@ class AdminControleur extends \Lib\Controleur
 
         $id = $_GET['id'];
         $am = new \Modele\ArticleManager();
-        $am->deleteArticleById($id);
+        $article = $am->getArticleById($id);
+        $am->deleteArticle($article);
 
-        header('Location: '.Application::RACINE.'/admin/index');
+        header('Location: ' . Application::RACINE . '/admin/index');
         exit();
     }
 

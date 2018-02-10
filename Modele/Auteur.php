@@ -45,6 +45,15 @@ class Auteur extends Entite
     }
 
     /**
+     * @return mixed
+     */
+    public function getPassHash()
+    {
+        return password_hash($this->pass, PASSWORD_DEFAULT);
+        
+    }
+
+    /**
      * @param mixed $pass
      * @return Auteur
      */
@@ -80,7 +89,7 @@ class Auteur extends Entite
     {
         if ($this->getTitre() == 'admin')
             return 'admin';
-        elseif ($this->getTitre() == null)
+        elseif ($this->getTitre() == 'membre')
             return 'membre';
         else
             return 'erreur';
