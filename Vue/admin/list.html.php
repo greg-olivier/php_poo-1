@@ -5,7 +5,7 @@
 <br>
 <div class="card-columns">
 <?php foreach ($all_articles_nopub as $all_article_nopub) : ?>
-    <a href="?page=admin&action=detail&id=<?php echo $all_article_nopub->getId() ?>">
+    <a href="<?php echo \Lib\Application::RACINE ?>admin/detail/<?php echo $all_article_nopub->getSlug() ?>">
             <div class="card mb-4">
                 <div class="card-body">
                     <h2 class="card-title"><?php echo $all_article_nopub->getTitre(); ?></h2>
@@ -21,7 +21,7 @@
 <hr>
 <div class="card-columns">
     <?php foreach ($all_articles_pub as $all_article_pub) : ?>
-        <a href="?page=admin&action=detail&id=<?php echo $all_article_pub->getId() ?>">
+        <a href="<?php echo \Lib\Application::RACINE ?>admin/detail/<?php echo $all_article_pub->getSlug() ?>">
             <div class="card mb-4">
                 <div class="card-body">
                     <h2 class="card-title"><?php echo $all_article_pub->getTitre(); ?></h2>

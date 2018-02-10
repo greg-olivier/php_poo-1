@@ -9,8 +9,12 @@
 namespace Lib;
 
 
+use Tools\Slugify;
+
 abstract class Entite
 {
+    
+    use Slugify;
     
  protected $id, $slug,$erreur = [];
 
@@ -70,8 +74,9 @@ abstract class Entite
      * @param mixed $slug
      * @return Entite
      */
-    public function setSlug($slug)
+    public function setSlug($text, $id)
     {
+        $slug = $this->slugify($text).'-'.$id;
         $this->slug = $slug;
         return $this;
     }

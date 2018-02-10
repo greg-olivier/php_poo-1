@@ -17,7 +17,7 @@ Class Article extends \Lib\Entite
     private $titre;
 
     /**
-     * @var sring
+     * @var string
      */
     private $contenu;
 
@@ -42,6 +42,7 @@ Class Article extends \Lib\Entite
      * @var string
      */
     private $publier;
+
 
 
 // Constantes
@@ -90,9 +91,12 @@ public function __construct(array $data = [])
 
 
     public function setContenu($contenu)
-    {
+    {if (strlen($contenu) <= 10)
+        $this->erreur[] = 'Contenu trop court';
+    else
         $this->contenu = $contenu;
         return $this;
+        
     }
 
     /**
@@ -181,7 +185,6 @@ public function __construct(array $data = [])
         $this->publier = $publier;
         return $this;
     }
-
 
 
 

@@ -1,6 +1,7 @@
 <?php
 namespace Modele;
 
+use Lib\Application;
 use Lib\EntiteManager;
 use \PDO;
 
@@ -50,6 +51,21 @@ Class ArticleManager extends EntiteManager {
         return $article;
 
     }
+    
+    public function deleteArticleById($id){
+        
+        //// Action Delete images à mettre dans une classe Image
+       /* $sql = 'SELECT image FROM article WHERE id = ?';
+        $result = $this->prepare($sql);
+        $result->execute([$id]);
+        $file_img = $result->fetch();
+
+        unlink(Application::RACINE.'images/'.$file_img['image']);*/
+
+        $sql = 'DELETE FROM article WHERE id = ?';
+        $result = $this->prepare($sql);
+        $result->execute([$id]);
+    }
 
     /**
      * @param Auteur $auteur
@@ -57,7 +73,7 @@ Class ArticleManager extends EntiteManager {
     public function getArticlePubByAuteur(Auteur $auteur){
 
         // Articles publiés
-        $sql = 'SELECT id, titre, contenu, publier FROM article WHERE id_auteur = ? AND publier = 1 ORDER BY date DESC';
+        $sql = 'SELECT id, titre, contenu, publier, slug FROM article WHERE id_auteur = ? AND publier = 1 ORDER BY date DESC';
         $result = $this->prepare($sql);
         $result->execute([$auteur->getId()]);
         $result->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, Article::class);
@@ -75,7 +91,7 @@ Class ArticleManager extends EntiteManager {
     }
 
     public function getArticleNoPubByAuteur(Auteur $auteur) {
-        $sql = 'SELECT id, titre, contenu, publier FROM article WHERE id_auteur = ? AND publier = 0 ORDER BY date DESC';
+        $sql = 'SELECT id, titre, contenu, publier, slug FROM article WHERE id_auteur = ? AND publier = 0 ORDER BY date DESC';
         $result = $this->prepare($sql);
         $result->execute([$auteur->getId()]);
         $result->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, Article::class);
@@ -88,6 +104,20 @@ Class ArticleManager extends EntiteManager {
         $nb_items_nopub = $nb_items['nb'];
 
         return ['all_articles_nopub' => $all_articles_nopub, 'nb_items_nopub' => $nb_items_nopub];
+    }
+
+    public function addArticle(Article $article){
+        $sql = 'INSERT INTO article (titre, contenu, date, id_auteur, slug, image, publier)
+                            VALUES (?, ?, ?, ?, ?, ?, ?)';
+        $result = $this->prepare($sql);
+        $result->execute([$article->getTitre(), $article->getContenu(), $article->getDate()->format('Y-m-d H:i:s'), $article->getAuteur()->getId(), $article->getSlug(), $article->getImage(), $article->getPublier()]);
+    }
+
+    public function getLastId(){
+        $sql = 'SELECT id FROM article ORDER BY id DESC LIMIT 1';
+        $result = $this->query($sql);
+        $lastid = $result->fetch();
+        return $lastid['id'];
     }
 
 }
