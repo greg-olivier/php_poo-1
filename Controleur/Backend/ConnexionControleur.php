@@ -46,7 +46,7 @@ class ConnexionControleur extends \Lib\Controleur
                     $_SESSION['userAgent'] = sha1($_SERVER['HTTP_USER_AGENT']);
                     $_SESSION['auteur'] = $auteur_bdd;
                     $_SESSION['auth'] = true;
-                    header('Location: ' . Application::RACINE . 'admin');
+                    header('Location: ' . Application::$racine . $auteur_bdd->getRole());
                     exit;
                 }
             }
@@ -56,10 +56,10 @@ class ConnexionControleur extends \Lib\Controleur
             if ($_POST['confirm'] === 'OK') {
                 session_destroy();
                 setcookie(session_name(), session_id(), time() - 10, '/', null, null, true);
-                header('Location: '.Application::RACINE.'connexion');
+                header('Location: '.Application::$racine.'connexion');
                 exit();
             } else {
-                header('Location: '.Application::RACINE.'admin');
+                header('Location: '.Application::$racine.$_SESSION['auteur']->getRole());
                 exit();
             }
         }
@@ -89,7 +89,7 @@ class ConnexionControleur extends \Lib\Controleur
                     if ($auteur->getErreur() == []) {
                             $am->insertAuteur($auteur);
                             $this->connectAction($auteur);
-                            header('Location: '.Application::RACINE.'membre/');
+                            header('Location: '.Application::$racine.'membre');
                             exit();
 
                     }

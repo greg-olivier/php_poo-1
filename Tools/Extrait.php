@@ -16,9 +16,5 @@ Trait Extrait
     }
     
 
-    public function add_euro($price)
-{
-    $str_euro = $price .= '€';
-    return $str_euro;
-}
+
 }

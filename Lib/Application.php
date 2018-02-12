@@ -8,12 +8,12 @@ use Modele\Auteur;
 abstract class Application
 {
     protected $name, $layout;
+    static public $racine;
     /**
      * @var Auteur $auteur
      */
     protected $auteur;
 
-    const RACINE = '/php/php_poo-1/web/';
     const TIME_STORE_TOKEN = 5 * 60; // 5min -> temps de saisie des formulaires
     const TIME_STORE_CACHE = 24 * 3600; // 24h -> temps avant check si cache a été modifié
     const TIME_STORE_COOKIE = 12 * 3600; // 12h -> temps avant que le cookies ne soit plus valable
@@ -23,7 +23,10 @@ abstract class Application
     {
         setlocale(LC_ALL, '');
         session_start();
-        
+        $dir = str_replace('\\', '/', realpath(__DIR__ . '/../'));
+        $dir = str_replace($_SERVER["DOCUMENT_ROOT"], '', $dir);
+        $dir .= '/Web/';
+        self::$racine = $dir;
 
         if (isset($_SESSION['auteur']))
             $this->auteur = $_SESSION['auteur'];

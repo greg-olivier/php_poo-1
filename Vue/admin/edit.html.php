@@ -40,5 +40,5 @@
         <button class="btn btn-primary" type="submit" name="update">Enregistrer les modifications</button>
 
     </form>
-    <a class="btn btn-default" href="<?php echo \Lib\Application::RACINE ?>admin/detail/<?php echo $article_edit->getSlug() ?>">Annuler</a>
+    <a class="btn btn-default" href="<?php echo \Lib\Application::$racine ?>admin/detail/<?php echo $article_edit->getSlug() ?>">Annuler</a>
 </article>

@@ -58,6 +58,21 @@ public function getAllProducts()
 
     }
 
+    public function getLastProducts()
+    {
+
+        $sql = 'SELECT id_cat category, id, titre, prix, image, contenu, date FROM produit p  ORDER BY date DESC LIMIT 3';
+        $result = $this->query($sql);
+        $result->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, Product::class);
+        $last_products = $result->fetchAll();
+        foreach ($last_products as $last_product) {
+            $last_product->setDate(new \DateTime($last_product->getDate()));
+            $cm = new CategoryManager();
+            $last_product->setCategory($cm->getCategoryById($last_product->getCategory()));
+        }
+        return $last_products;
+    }
+
     public function getProductById($id)
     {
         $sql = 'SELECT p.id, p.titre, image, contenu, prix, p.date, p.id_cat category   FROM produit p

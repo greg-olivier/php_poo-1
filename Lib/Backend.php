@@ -3,7 +3,6 @@
 namespace Lib;
 
 
-use Controleur\Backend\ConnectControleur;
 use Tools\Token_Form;
 
 class Backend extends Application
@@ -31,7 +30,7 @@ class Backend extends Application
             $controleur = new \Controleur\Backend\ConnexionControleur($this);
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 if (!isset($_SESSION['token'])) {
-                    header('Location: ' . Application::RACINE . 'connexion/index');
+                    header('Location: ' . Application::$racine . 'connexion/index');
                     exit();
                 } else {
                     if ($_POST['token'] == $_SESSION['token'] && time() - $_SESSION['token_time'] <= Application::TIME_STORE_TOKEN) {
@@ -45,6 +44,8 @@ class Backend extends Application
             $controleur->indexAction($this->auteur);
 
         } else {
+            if ($_SESSION['IPaddress'] != sha1($_SERVER['REMOTE_ADDR']) || $_SESSION['userAgent'] != sha1($_SERVER['HTTP_USER_AGENT']))
+                exit('Grrr');
             $module = (isset($_GET['module'])) ? $_GET['module'] : 'connexion';
             $action = (isset($_GET['action'])) ? $_GET['action'] : 'index';
             try {

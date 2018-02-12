@@ -1,6 +1,6 @@
 
 <article>
-    <a href="<?php echo \Lib\Application::RACINE ?>catalogue/categorie-<?php echo $current_product->getCategory()->getId(); ?>">Retour</a>
+    <a href="<?php echo \Lib\Application::$racine ?>catalogue/categorie-<?php echo $current_product->getCategory()->getId(); ?>">Retour</a>
     <header>
         <h1>
             <?php echo $current_product->getTitre(); ?>
@@ -19,7 +19,7 @@
     <!--    <div class="thumbnail" style="height:200px;width:200px">-->
     <div class="img-fluid" style="height:200px;width:200px;">
         <?php if($current_product->getImage() != NULL) : ?>
-            <img class="float-left" src="<?php echo \Lib\Application::RACINE.'images/'. $current_product->getImage(); ?>" alt="<?php echo htmlspecialchars($current_product->getTitre());?>">
+            <img class="float-left" src="<?php echo \Lib\Application::$racine.'images/'. $current_product->getImage(); ?>" alt="<?php echo htmlspecialchars($current_product->getTitre());?>">
         <?php endif ?>
     </div>
     </div>

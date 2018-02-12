@@ -12,7 +12,7 @@
 
         <!-- Bootstrap core CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
-        <link rel="stylesheet" href="<?php echo \Lib\Application::RACINE ?>css/style.css">
+        <link rel="stylesheet" href="<?php echo \Lib\Application::$racine ?>css/style.css">
 
         <script src="https://cdn.ckeditor.com/ckeditor5/1.0.0-alpha.2/classic/ckeditor.js"></script>
 
@@ -21,7 +21,7 @@
     <body>
 
         <nav class="navbar navbar-expand-md navbar-dark fixed-top">
-            <a class="logo" href="<?php echo \Lib\Application::RACINE ?>">Logo</a>
+            <a class="logo" href="<?php echo \Lib\Application::$racine ?>">Logo</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -29,30 +29,30 @@
             <div class="collapse navbar-collapse" id="navbarsExampleDefault">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="<?php echo \Lib\Application::RACINE; ?>catalogue">Catalogue</a>
+                        <a class="nav-link" href="<?php echo \Lib\Application::$racine; ?>catalogue">Catalogue</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?php echo \Lib\Application::RACINE; ?>blog">Le Blog</a>
+                        <a class="nav-link" href="<?php echo \Lib\Application::$racine; ?>blog">Le Blog</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?php echo \Lib\Application::RACINE; ?>contact">Contact</a>
+                        <a class="nav-link" href="<?php echo \Lib\Application::$racine; ?>contact">Contact</a>
                     </li>
                     <?php if (isset($_SESSION['auth']) AND $_SESSION['auth'] === true AND $_SESSION['auteur']->getRole()=='admin') :?>
                         <li class="nav-item">
-                            <a class="nav-link" href="<?php echo \Lib\Application::RACINE; ?>admin">Administration</a>
+                            <a class="nav-link" href="<?php echo \Lib\Application::$racine; ?>admin">Administration</a>
                         </li>
                     <?php elseif (isset($_SESSION['auth']) AND ($_SESSION['auth'] === true)) : ?>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?php echo \Lib\Application::RACINE; ?>membre">Mon Espace</a>
+                        <a class="nav-link" href="<?php echo \Lib\Application::$racine; ?>membre">Mon Espace</a>
                     </li>
                     <?php endif; ?>
                         <?php if (isset($_SESSION['auth']) AND $_SESSION['auth'] === true) : ?>
                             <li class="nav-item">
-                        <a class="nav-link" href="<?php echo \Lib\Application::RACINE; ?>connexion/disconnect">Déconnexion</a>
+                        <a class="nav-link" href="<?php echo \Lib\Application::$racine; ?>connexion/disconnect">Déconnexion</a>
                     </li>
                     <?php else: ?>
                         <li class="nav-item">
-                            <a class="nav-link" href="<?php echo \Lib\Application::RACINE; ?>connexion">Connexion</a>
+                            <a class="nav-link" href="<?php echo \Lib\Application::$racine; ?>connexion">Connexion</a>
                         </li>
                     <?php endif; ?>
 
@@ -84,7 +84,7 @@
             </div>
         </footer>
 
-
+<?php if (preg_match('/admin\/(add|edit)\/[0-9a-z-]+-[0-9]+$/', $_SERVER['REQUEST_URI']) === 1): ?>
         <script>
             ClassicEditor
                 .create( document.querySelector( '#editor' ) )
@@ -92,6 +92,7 @@
                 console.error( error );
             } );
         </script>
+        <?php endif ?>
         <!-- Bootstrap core JavaScript
         ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->

@@ -45,7 +45,7 @@ class AdminControleur extends \Lib\Controleur
         $article = new \Modele\Article();
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if (!isset($_SESSION['token'])) {
-                header('Location: /admin/add');
+                header('Location: '.Application::$racine.'admin/add');
                 exit();
             } else {
                 if (($_POST['token'] == $_SESSION['token']) && (time() - $_SESSION['token_time']) <= Application::TIME_STORE_TOKEN) {
@@ -100,7 +100,7 @@ class AdminControleur extends \Lib\Controleur
                             $article->getThumbnail()->setNom($thumbnail);
 
                         $am->addArticle($article);
-                        header('Location: ' . Application::RACINE . 'admin/index');
+                        header('Location: ' . Application::$racine . 'admin/index');
                         exit();
                     }
                 }
@@ -119,7 +119,7 @@ class AdminControleur extends \Lib\Controleur
         $article = $am->getArticleById($id);
         $am->deleteArticle($article);
 
-        header('Location: ' . Application::RACINE . '/admin/index');
+        header('Location: ' . Application::$racine . '/admin/index');
         exit();
     }
 
@@ -131,7 +131,7 @@ class AdminControleur extends \Lib\Controleur
         $article_edit = $am->getArticleById($id);
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if (!isset($_SESSION['token'])) {
-                header('Location: /admin/add');
+                header('Location: ' . Application::$racine . 'admin/add');
                 exit();
             } else {
                 if (($_POST['token'] == $_SESSION['token']) && (time() - $_SESSION['token_time']) <= Application::TIME_STORE_TOKEN) {
@@ -188,7 +188,7 @@ class AdminControleur extends \Lib\Controleur
                         if ($article->getImage()->getFilename() != $article_edit->getImage()->getFilename())
                             $article->getThumbnail()->setNom($thumbnail);
                         $am->updateArticle($article);
-                        header('Location: ' . Application::RACINE . 'admin/index');
+                        header('Location: ' . Application::$racine . 'admin/index');
                         exit();
                     }
                 }

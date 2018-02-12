@@ -9,6 +9,7 @@
 namespace Modele;
 
 
+use Tools\Add_Euro;
 use Tools\Date_Locale;
 use Tools\Extrait;
 
@@ -16,6 +17,8 @@ class Product extends \Lib\Entite
 {
     Use Date_Locale;
     Use Extrait;
+    Use Add_Euro;
+
     
 private $titre, $contenu, $image, $prix;
 
@@ -147,7 +150,10 @@ private $date;
     }
 
     
-    
+    public function getPrixEuro(){
+        $prix = $this->add_euro($this->getPrix());
+        return $prix;
+    }
 
     public function getExtrait()
     {

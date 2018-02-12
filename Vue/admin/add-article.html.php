@@ -35,5 +35,5 @@
 
         <button class="btn btn-primary" type="submit" name="update">Enregistrer l'article</button>
     </form>
-    <a class="btn" href="?page=admin&action=list">Annuler</a>
+    <a class="btn" href="<?php echo \Lib\Application::$racine ?>admin">Annuler</a>
 </article>
